@@ -3,7 +3,7 @@
 __Alunos:__
 - Juliana Ballin Lima, jbl.snf23@uea.edu.br, 2315310011 
 - João Lucas Noronha de Castro, jlndc.snf23@uea.edu.br, 2315310009
-- Caio 1
+- Caio Jorge da Cunha Queiroz, cjdcq.snf23@uea.edu.br, 2315310028
 - Caio 2
 
 ## Sobre o jogo Pong 
