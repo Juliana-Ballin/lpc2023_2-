@@ -10,7 +10,7 @@ pygame.init()
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
-SCORE_MAX = 1
+SCORE_MAX = 2
 
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
@@ -72,6 +72,8 @@ ball_dy = 5
 score_1 = 0
 score_2 = 0
 
+game_over = False
+
 # game loop
 game_loop = True
 game_clock = pygame.time.Clock()
@@ -82,7 +84,7 @@ while game_loop:
     if not pygame.mixer.music.get_busy():
         current_song = (current_song + 1) % len(music_list)
         pygame.mixer.music.load(music_list[current_song])
-        pygame.mixer.musica.play()
+        pygame.mixer.music.play()
 
     # print(ball_x)
 
@@ -96,15 +98,19 @@ while game_loop:
                 player_1_move_up = True
             if event.key == pygame.K_DOWN:
                 player_1_move_down = True
-            if event.key == pygame.K_r:
-                player_1_y = 300
-                player_2_y = 300
-                ball_x = 640
-                ball_y = 360
-                ball_dx = 5
-                ball_dy = 5
-                score_1 = 0
-                score_2 = 0
+
+            if game_over:
+                if event.key == pygame.K_r:
+                    player_1_y = 300
+                    player_2_y = 300
+                    ball_x = 640
+                    ball_y = 360
+                    ball_dx = 5
+                    ball_dy = 5
+                    score_1 = 0
+                    score_2 = 0
+                    game_over = False
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 player_1_move_up = False
@@ -127,18 +133,12 @@ while game_loop:
 
         # ball collision with the player 1 's paddle
         if ball_x < 100:
-            print(ball_x)
             if player_1_y < ball_y + 25:
-                print('+25', player_1_y, ball_y+25)
                 if player_1_y + 150 > ball_y:
-                    print('+150', player_1_y+150, ball_y)
                     final_clock = time.time()
-                    print(final_clock)
                     if 1 < final_clock - initial_clock:
-                        print('passou no teste')
                         initial_clock = time.time()
                         ball_dx *= -1
-                        print('acertou')
                         bounce_sound_effect.play()
 
         # ball collision with the player 2 's paddle
@@ -204,6 +204,7 @@ while game_loop:
         screen.blit(player_2, (1180, player_2_y))
         screen.blit(score_text, score_text_rect)
     else:
+        game_over = True
         # drawing victory
         screen.fill(COLOR_BLACK)
         screen.blit(score_text, score_text_rect)
