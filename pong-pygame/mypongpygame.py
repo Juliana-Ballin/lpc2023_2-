@@ -3,6 +3,7 @@
 
 import pygame
 import time
+import os
 
 pygame.init()
 
@@ -41,6 +42,15 @@ restart_text_rect.center = (500, 500)
 bounce_sound_effect = pygame.mixer.Sound('assets/bounce.wav')
 scoring_sound_effect = pygame.mixer.Sound('assets/258020__kodack__arcade-bleep-sound.wav')
 
+# music list
+music_list = ['assets/musica1.mp3', 'assets/musica2.mp3', 'assets/musica3.mp3', 'assets/musica4.mp3']
+current_song = 0
+
+# music starting
+pygame.mixer.music.load(music_list[current_song])
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play()
+
 # player 1
 player_1 = pygame.image.load("assets/player.png")
 player_1_y = 300
@@ -67,7 +77,14 @@ game_loop = True
 game_clock = pygame.time.Clock()
 
 while game_loop:
-    #print(ball_x)
+
+    # music skip
+    if not pygame.mixer.music.get_busy():
+        current_song = (current_song + 1) % len(music_list)
+        pygame.mixer.music.load(music_list[current_song])
+        pygame.mixer.musica.play()
+
+    # print(ball_x)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -79,6 +96,15 @@ while game_loop:
                 player_1_move_up = True
             if event.key == pygame.K_DOWN:
                 player_1_move_down = True
+            if event.key == pygame.K_r:
+                player_1_y = 300
+                player_2_y = 300
+                ball_x = 640
+                ball_y = 360
+                ball_dx = 5
+                ball_dy = 5
+                score_1 = 0
+                score_2 = 0
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 player_1_move_up = False
@@ -103,12 +129,12 @@ while game_loop:
         if ball_x < 100:
             print(ball_x)
             if player_1_y < ball_y + 25:
-                print('+25',player_1_y, ball_y+25)
+                print('+25', player_1_y, ball_y+25)
                 if player_1_y + 150 > ball_y:
                     print('+150', player_1_y+150, ball_y)
                     final_clock = time.time()
                     print(final_clock)
-                    if(1<final_clock - initial_clock):
+                    if 1 < final_clock - initial_clock:
                         print('passou no teste')
                         initial_clock = time.time()
                         ball_dx *= -1
