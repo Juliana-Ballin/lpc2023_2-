@@ -21,6 +21,9 @@ pygame.display.set_caption("MyPong - PyGame Edition - 2022-12-12")
 initial_clock = time.time()
 final_clock = time.time()
 
+# hit counter
+hit_counter = 0
+
 # score text
 score_font = pygame.font.Font('assets/PressStart2P.ttf', 44)
 score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
@@ -146,8 +149,12 @@ while game_loop:
                         if ball_x > 50:
                             initial_clock = time.time()
                             ball_dx *= -1
-                            difficult += random.randint(-20,20)
+                            ball_dy = random.uniform(-7, 7)
+                            if abs(ball_dy) < 3:
+                                ball_dy = 3 if ball_dy > 0 else -3
+                            difficult += random.randint(-20, 20)
                             bounce_sound_effect.play()
+                            hit_counter += 1
                             if ball_x < 80:
                                 ball_dy *= -1
 
@@ -156,22 +163,26 @@ while game_loop:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
                     ball_dx *= -1
+                    ball_dy = random.uniform(-7, 7)
+                    if abs(ball_dy) < 3:
+                        ball_dy = 3 if ball_dy > 0 else -3
                     bounce_sound_effect.play()
+                    hit_counter += 1
 
         # scoring points
         if ball_x < -50:
             ball_x = 640
             ball_y = 360
-            ball_dy *= -1
-            ball_dx *= -1
+            ball_dy *= -0.6
+            ball_dx *= -0.6
             score_2 += 1
             difficult = 0
             scoring_sound_effect.play()
         elif ball_x > 1320:
             ball_x = 640
             ball_y = 360
-            ball_dy *= -1
-            ball_dx *= -1
+            ball_dy *= -0.6
+            ball_dx *= -0.6
             score_1 += 1
             difficult = 0
             scoring_sound_effect.play()
@@ -180,7 +191,13 @@ while game_loop:
         ball_x = ball_x + ball_dx
         ball_y = ball_y + ball_dy
 
-        # player 1 up movement
+        # increase speed
+        if hit_counter >= 3:
+            ball_dx *= 1.2
+            ball_dy *= 1.2
+            hit_counter = 0
+
+            # player 1 up movement
         if player_1_move_up:
             player_1_y -= 5
         else:
@@ -202,7 +219,7 @@ while game_loop:
 
         # player 2 "Artificial Intelligence"
         player_2_y = ball_y + difficult
-        print (player_2_y, ball_y)
+        print(player_2_y, ball_y)
         if player_2_y <= 0:
             player_2_y = 0
         elif player_2_y >= 570:
