@@ -72,6 +72,7 @@ ball_dy = 5
 score_1 = 0
 score_2 = 0
 
+# gane over
 game_over = False
 
 # game loop
@@ -137,9 +138,14 @@ while game_loop:
                 if player_1_y + 150 > ball_y:
                     final_clock = time.time()
                     if 1 < final_clock - initial_clock:
-                        initial_clock = time.time()
-                        ball_dx *= -1
-                        bounce_sound_effect.play()
+                        if ball_x > 50:
+                            initial_clock = time.time()
+                            ball_dx *= -1
+                            bounce_sound_effect.play()
+                            print(ball_x)
+                            print(player_1_y-ball_y)
+                            if ball_x < 80:
+                                ball_dy *= -1
 
         # ball collision with the player 2 's paddle
         if ball_x > 1160:
