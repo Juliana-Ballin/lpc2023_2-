@@ -11,7 +11,7 @@ pygame.init()
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
-SCORE_MAX = 2
+SCORE_MAX = 5
 
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
@@ -88,6 +88,7 @@ game_clock = pygame.time.Clock()
 
 while game_loop:
 
+    #print(ball_dy)
     # music skip
     if not pygame.mixer.music.get_busy():
         current_song = (current_song + 1) % len(music_list)
@@ -152,18 +153,21 @@ while game_loop:
                             ball_dy = random.uniform(-7, 7)
                             if abs(ball_dy) < 3:
                                 ball_dy = 3 if ball_dy > 0 else -3
-                            difficult += random.randint(-20, 20)
+                            difficult += random.randint( int(-1 * (abs(1* ball_dx))), int(abs(1 * ball_dx)))
                             bounce_sound_effect.play()
                             hit_counter += 1
                             if ball_x < 80:
                                 ball_dy *= -1
 
         # ball collision with the player 2 's paddle4
+        #print(random.randint( -1 * (abs(1* ball_x)), abs(1 * ball_x)))
+        print(difficult)
         if ball_x > 1160:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
                     ball_dx *= -1
                     ball_dy = random.uniform(-7, 7)
+                    #print(ball_x)
                     if abs(ball_dy) < 3:
                         ball_dy = 3 if ball_dy > 0 else -3
                     bounce_sound_effect.play()
@@ -199,13 +203,13 @@ while game_loop:
 
             # player 1 up movement
         if player_1_move_up:
-            player_1_y -= 5
+            player_1_y -= 10
         else:
             player_1_y += 0
 
         # player 1 down movement
         if player_1_move_down:
-            player_1_y += 5
+            player_1_y += 10
         else:
             player_1_y += 0
 
@@ -219,7 +223,7 @@ while game_loop:
 
         # player 2 "Artificial Intelligence"
         player_2_y = ball_y + difficult
-        print(player_2_y, ball_y)
+        #print(ball_dx, ball_x)
         if player_2_y <= 0:
             player_2_y = 0
         elif player_2_y >= 570:
