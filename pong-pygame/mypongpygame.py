@@ -4,6 +4,7 @@
 import pygame
 import time
 import os
+import random
 
 pygame.init()
 
@@ -75,6 +76,9 @@ score_2 = 0
 # gane over
 game_over = False
 
+# difficult
+difficult = 0
+
 # game loop
 game_loop = True
 game_clock = pygame.time.Clock()
@@ -110,6 +114,7 @@ while game_loop:
                     ball_dy = 5
                     score_1 = 0
                     score_2 = 0
+                    difficult = 0
                     game_over = False
 
         if event.type == pygame.KEYUP:
@@ -141,13 +146,12 @@ while game_loop:
                         if ball_x > 50:
                             initial_clock = time.time()
                             ball_dx *= -1
+                            difficult += random.randint(-20,20)
                             bounce_sound_effect.play()
-                            print(ball_x)
-                            print(player_1_y-ball_y)
                             if ball_x < 80:
                                 ball_dy *= -1
 
-        # ball collision with the player 2 's paddle
+        # ball collision with the player 2 's paddle4
         if ball_x > 1160:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
@@ -161,6 +165,7 @@ while game_loop:
             ball_dy *= -1
             ball_dx *= -1
             score_2 += 1
+            difficult = 0
             scoring_sound_effect.play()
         elif ball_x > 1320:
             ball_x = 640
@@ -168,6 +173,7 @@ while game_loop:
             ball_dy *= -1
             ball_dx *= -1
             score_1 += 1
+            difficult = 0
             scoring_sound_effect.play()
 
         # ball movement
@@ -195,7 +201,8 @@ while game_loop:
             player_1_y = 570
 
         # player 2 "Artificial Intelligence"
-        player_2_y = ball_y
+        player_2_y = ball_y + difficult
+        print (player_2_y, ball_y)
         if player_2_y <= 0:
             player_2_y = 0
         elif player_2_y >= 570:
