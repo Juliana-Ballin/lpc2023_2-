@@ -21,6 +21,12 @@ pygame.display.set_caption("MyPong - PyGame Edition - 2022-12-12")
 initial_clock = time.time()
 final_clock = time.time()
 
+uper_wall_final_clock = time.time()
+uper_wall_initial_clock = time.time()
+
+lower_wall_final_clock = time.time()
+lower_wall_initial_clock = time.time()
+
 # hit counter
 hit_counter = 0
 
@@ -88,14 +94,12 @@ game_clock = pygame.time.Clock()
 
 while game_loop:
 
-    #print(ball_dy)
     # music skip
     if not pygame.mixer.music.get_busy():
         current_song = (current_song + 1) % len(music_list)
         pygame.mixer.music.load(music_list[current_song])
         pygame.mixer.music.play()
 
-    # print(ball_x)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -135,39 +139,46 @@ while game_loop:
 
         # ball collision with the wall
         if ball_y > 700:
-            ball_dy *= -1
-            bounce_sound_effect.play()
+            uper_wall_final_clock = time.time()
+            if 0.001 < uper_wall_final_clock - uper_wall_initial_clock:
+                print(uper_wall_final_clock - uper_wall_initial_clock)
+                ball_dy *= -1
+                bounce_sound_effect.play()
+                uper_wall_initial_clock = time.time()
+                print('colidi eem baixo')
         elif ball_y <= 0:
-            ball_dy *= -1
-            bounce_sound_effect.play()
+            lower_wall_final_clock = time.time()
+            if 0.001 < lower_wall_final_clock - lower_wall_initial_clock:
+                print(lower_wall_final_clock - lower_wall_initial_clock)
+                ball_dy *= -1
+                bounce_sound_effect.play()
+                lower_wall_initial_clock = time.time()
+                print('colidi em cima')
 
         # ball collision with the player 1 's paddle
         if ball_x < 100:
             if player_1_y < ball_y + 25:
                 if player_1_y + 150 > ball_y:
                     final_clock = time.time()
-                    if 1 < final_clock - initial_clock:
+                    if 0.1 < final_clock - initial_clock:
                         if ball_x > 50:
                             initial_clock = time.time()
                             ball_dx *= -1
                             ball_dy = random.uniform(-7, 7)
                             if abs(ball_dy) < 3:
                                 ball_dy = 3 if ball_dy > 0 else -3
-                            difficult += random.randint( int(-1 * (abs(1* ball_dx))), int(abs(1 * ball_dx)))
+                            difficult += random.randint( (int(-1 * (abs(1* ball_dx))/2)), int(abs(1 * ball_dx)))
                             bounce_sound_effect.play()
                             hit_counter += 1
                             if ball_x < 80:
                                 ball_dy *= -1
 
         # ball collision with the player 2 's paddle4
-        #print(random.randint( -1 * (abs(1* ball_x)), abs(1 * ball_x)))
-        print(difficult)
         if ball_x > 1160:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
                     ball_dx *= -1
                     ball_dy = random.uniform(-7, 7)
-                    #print(ball_x)
                     if abs(ball_dy) < 3:
                         ball_dy = 3 if ball_dy > 0 else -3
                     bounce_sound_effect.play()
@@ -223,7 +234,6 @@ while game_loop:
 
         # player 2 "Artificial Intelligence"
         player_2_y = ball_y + difficult
-        #print(ball_dx, ball_x)
         if player_2_y <= 0:
             player_2_y = 0
         elif player_2_y >= 570:
