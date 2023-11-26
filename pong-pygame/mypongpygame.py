@@ -113,15 +113,9 @@ while game_loop:
             # Restart the game if 'R' is pressed when it's over (Reinicia o jogo se 'R' for pressionado quando acabar)
             if game_over:
                 if event.key == pygame.K_r:
-                    player_1_y = 300
-                    player_2_y = 300
-                    ball_x = 640
-                    ball_y = 360
-                    ball_dx = 5
-                    ball_dy = 5
-                    score_1 = 0
-                    score_2 = 0
-                    difficult = 0
+                    player_1_y, player_2_y = 300, 300  # Tuple unpacking for multiple assignments
+                    ball_x, ball_y, ball_dx, ball_dy = 640, 360, 5, 5
+                    score_1 = score_2 = difficult = 0
                     game_over = False
 
         if event.type == pygame.KEYUP:
