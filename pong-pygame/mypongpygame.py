@@ -1,6 +1,6 @@
-# Turma: Sistemas de Informação 2023/2
-# Alunos: João Castro, Juliana Ballin, Caio JOrge, Caio Pereira
-# 2023
+# Class: Information Systems 2023/2
+# Students: João Castro, Juliana Ballin, Caio Jorge, Caio Pereira
+# Year: 2023
 
 import pygame
 import time
