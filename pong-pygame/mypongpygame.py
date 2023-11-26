@@ -151,7 +151,7 @@ while game_loop:
                 ball_dy *= -1
                 bounce_sound_effect.play()
                 uper_wall_initial_clock = time.time()
-                print('colidi eem baixo')
+                print('colidi em baixo')
         elif ball_y <= 0:
             lower_wall_final_clock = time.time()
             if 0.001 < lower_wall_final_clock - lower_wall_initial_clock:
@@ -264,6 +264,6 @@ while game_loop:
     # Update screen (Atualiza a tela)
     pygame.display.flip()
     game_clock.tick(60)
-    
+
 # Quit Pygame (Encerra o Pygame)
 pygame.quit()
