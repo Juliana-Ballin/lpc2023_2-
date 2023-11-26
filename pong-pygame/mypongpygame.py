@@ -23,14 +23,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("MyPong - PyGame Edition - 2023-11-28")
 
 # Initialize clocks for various time measurements (Inicializa relógios para diferentes medidas de tempo)
-initial_clock = time.time()
-final_clock = time.time()
-
-uper_wall_final_clock = time.time()
-uper_wall_initial_clock = time.time()
-
-lower_wall_final_clock = time.time()
-lower_wall_initial_clock = time.time()
+initial_clock = final_clock = uper_wall_final_clock = uper_wall_initial_clock = lower_wall_final_clock = lower_wall_initial_clock = time.time()
 
 # Hit counter (Contador de colisões)
 hit_counter = 0
