@@ -260,7 +260,6 @@ while game_loop:
             lose =  True
         else:
             lose = False
-        print(lose)
         if lose:
             screen.blit(lose_text, lose_text_rect)
         else:
