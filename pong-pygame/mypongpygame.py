@@ -11,7 +11,7 @@ pygame.init()
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
-SCORE_MAX = 5
+SCORE_MAX = 3
 
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
@@ -41,6 +41,13 @@ victory_font = pygame.font.Font('assets/PressStart2P.ttf', 100)
 victory_text = victory_font .render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (450, 350)
+
+# lose text
+lose_font = pygame.font.Font('assets/PressStart2P.ttf', 90)
+lose_text = lose_font .render('YOU LOSE', True, COLOR_WHITE, COLOR_BLACK)
+lose_text_rect = score_text.get_rect()
+lose_text_rect.center = (450, 350)
+lose = False
 
 # restart text
 restart_font = pygame.font.Font('assets/PressStart2P.ttf', 20)
@@ -87,6 +94,7 @@ game_over = False
 
 # difficult
 difficult = 0
+
 
 # game loop
 game_loop = True
@@ -141,19 +149,15 @@ while game_loop:
         if ball_y > 700:
             uper_wall_final_clock = time.time()
             if 0.001 < uper_wall_final_clock - uper_wall_initial_clock:
-                print(uper_wall_final_clock - uper_wall_initial_clock)
                 ball_dy *= -1
                 bounce_sound_effect.play()
                 uper_wall_initial_clock = time.time()
-                print('colidi eem baixo')
         elif ball_y <= 0:
             lower_wall_final_clock = time.time()
             if 0.001 < lower_wall_final_clock - lower_wall_initial_clock:
-                print(lower_wall_final_clock - lower_wall_initial_clock)
                 ball_dy *= -1
                 bounce_sound_effect.play()
                 lower_wall_initial_clock = time.time()
-                print('colidi em cima')
 
         # ball collision with the player 1 's paddle
         if ball_x < 100:
@@ -252,7 +256,15 @@ while game_loop:
         # drawing victory
         screen.fill(COLOR_BLACK)
         screen.blit(score_text, score_text_rect)
-        screen.blit(victory_text, victory_text_rect)
+        if score_1 < score_2:
+            lose =  True
+        else:
+            lose = False
+        print(lose)
+        if lose:
+            screen.blit(lose_text, lose_text_rect)
+        else:
+            screen.blit(victory_text, victory_text_rect)
         screen.blit(restart_text, restart_text_rect)
 
     # update screen
