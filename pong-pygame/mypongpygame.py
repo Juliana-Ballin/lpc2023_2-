@@ -28,6 +28,9 @@ initial_clock = final_clock = uper_wall_final_clock = uper_wall_initial_clock = 
 # Hit counter (Contador de colisões)
 hit_counter = 0
 
+# Speed level
+speed_level = 0
+
 # Create text objects for score, victory, and restart messages (Cria objetos de texto para pontuação, vitória e mensagens de reinício)
 score_font = pygame.font.Font('assets/PressStart2P.ttf', 44)
 score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
@@ -58,7 +61,7 @@ bounce_sound_effect = pygame.mixer.Sound('assets/bounce.wav')
 scoring_sound_effect = pygame.mixer.Sound('assets/258020__kodack__arcade-bleep-sound.wav')
 
 # Music list (Lista de músicas)
-music_list = ['assets/musica1.mp3', 'assets/musica2.mp3', 'assets/musica3.mp3', 'assets/musica4.mp3']
+music_list = ['assets/musica2.mp3', 'assets/musica1.mp3', 'assets/musica3.mp3']
 current_song = 0
 
 # Music starting (Inicia a música)
@@ -193,6 +196,10 @@ while game_loop:
             score_2 += 1
             difficult = 0
             scoring_sound_effect.play()
+            if 6 <= speed_level <= 12:
+                speed_level = max(0, speed_level - 5)
+            elif speed_level > 12:
+                speed_level = max(0, speed_level - 7)
         elif ball_x > 1320:
             ball_x = 640
             ball_y = 360
@@ -200,6 +207,10 @@ while game_loop:
             ball_dx *= -0.6
             score_1 += 1
             difficult = 0
+            if 6 <= speed_level <= 12:
+                speed_level = max(0, speed_level - 5)
+            elif speed_level > 12:
+                speed_level = max(0, speed_level - 7)
             scoring_sound_effect.play()
 
         # Ball movement (Movimento da bola)
@@ -207,10 +218,11 @@ while game_loop:
         ball_y = ball_y + ball_dy
 
         # Increase speed (Aumentar velocidade)
-        if hit_counter >= 3:
-            ball_dx *= 1.2
-            ball_dy *= 1.2
+        if hit_counter >= 3 and hit_counter <= 30:
+            ball_dx *= 1.1
+            ball_dy *= 1.1
             hit_counter = 0
+            speed_level += 1
 
         # Player 1 up movement (Movimento para cima do jogador 1)
         if player_1_move_up:
