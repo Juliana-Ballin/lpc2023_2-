@@ -208,9 +208,9 @@ while game_loop:
             score_1 += 1
             difficult = 0
             if 6 <= speed_level <= 12:
-                speed_level = max(0, speed_level - 5)
+                speed_level = max(0, speed_level - 3)
             elif speed_level > 12:
-                speed_level = max(0, speed_level - 7)
+                speed_level = max(0, speed_level - 6)
             scoring_sound_effect.play()
 
         # Ball movement (Movimento da bola)
@@ -219,8 +219,8 @@ while game_loop:
 
         # Increase speed (Aumentar velocidade)
         if hit_counter >= 3 and hit_counter <= 30:
-            ball_dx *= 1.1
-            ball_dy *= 1.1
+            ball_dx *= 1.2
+            ball_dy *= 1.2
             hit_counter = 0
             speed_level += 1
 
